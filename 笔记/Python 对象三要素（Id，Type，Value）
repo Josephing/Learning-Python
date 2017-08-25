@@ -1,0 +1,40 @@
+python 对象三要素：Id，Type，Value
+
+Id：唯一标识一个对象
+Type：标识对象的类型
+Value：对象的值
+
+a is b 判断 a 对象是否就是 b 对象（通过id来判断）
+a == b 判断 a 对象的值是否和 b 对象的值相等（通过value来判断）
+
+
+1.
+a = 1
+b = 1   # 与b=a是一个效果
+a == b == 1 => True
+a is b is 1 => True
+id(a)==id(b)==id(1) => True
+
+2.
+a = [1,2,3]
+b = [1,2,3]
+a == b == [1,2,3] => True
+a is b => False
+a is [1,2,3] => False
+b is [1,2,3] => False
+
+3.
+a = [1,2,3]
+b = a
+a == b == [1,2,3] => True
+a is b => True
+a is [1,2,3] => False
+b is [1,2,3] => False
+
+4.
+a = [1,2,3]
+b = a[::]
+a == b == [1,2,3] => True
+a is b => False
+a is [1,2,3] => False
+b is [1,2,3] => False
