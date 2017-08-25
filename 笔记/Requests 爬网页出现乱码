@@ -1,0 +1,12 @@
+使用requests进行网页请求数据的时候很容易出现乱码
+
+我们可以通过在网页上右击查看源代码中查看编码方式：content="text/html;charset=utf-8"->
+大多数网页的编码方式是utf8.而windows系统中文的编码方式为gbk，所以我们需要将编码方式改变为gbk
+python内部的编码方式为utf8，也就是说python在处理其他字符串内容的时候首先要先将内容转化为utf8的编码方式，然后在解码为你想要的编码方式输出
+
+例如s=”中文” 为str类型的字符串编码方式为gb2312
+需要 s.decode("gb2312")将gb2312编码方式的内容解码为Unicode编码
+然后输出的时候要将s的编码方式规定为gbk->s.encode("gbk")
+
+我们获取到网页内容res后， 通过res.content.decode("utf8","ignore").encode("gbk","ignore")就不会有乱码了
+这里所使用的ignore属性意思是忽略其中有一场的编码，仅显示有效的编码。
