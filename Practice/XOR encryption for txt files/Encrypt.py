@@ -33,6 +33,7 @@ keyfile.close( )
 for i in range(0, len(a)):
     a[i] = a[i] ^ key
 
+# 保存密文到本地
 encryptionfile = open('Ciphertext.txt', 'w')
 encryptionfile.write(str(a))
 encryptionfile.close( )
