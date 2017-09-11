@@ -1,0 +1,32 @@
++ 号：实现字符串连接
+>>> "Py" + "thon"
+'Python'
+>>> a = 1989
+>>> b = "free"
+>>> print b + `a` #``是反引号，因为其容易看错，此方法不推荐
+free1989
+>>> print b + str(a)
+free1989
+>>> print b + repr(a) #repr(a)与上面的类似
+free1989
+
+split：这个函数的作用是将字符串根据某个分割符进行分割
+>>> a = "I LOVE PYTHON"
+>>> a.split(" ") # 这是用空格作为分割，得到了一个名字叫做列表（list）的返回值
+['I', 'LOVE', 'PYTHON']
+>>> b = "www.itdiffer.com"
+>>> b.split(".")
+['www', 'itdiffer', 'com']
+
+join：拼接字符串
+用“+”能够拼接字符串，但不是什么情况下都能够如愿的。比如，将列表中的每个字符（串）元素拼接成一个字符串，并且用某个符号连接，
+如果用“+”，就比较麻烦了，用字符串的 join 就比较容易实现。
+>>> b
+'www.itdiffer.com'
+>>> c = b.split(".")
+>>> c
+['www', 'itdiffer', 'com']
+>>> ".".join(c)
+'www.itdiffer.com'
+>>> "*".join(c)
+'www*itdiffer*com'
