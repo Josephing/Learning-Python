@@ -1,0 +1,47 @@
+Python2 默认的编码是 ascii，
+通过 encode 可以将对象的编码转换为指定编码格式（称作“编码”），
+而 decode 是这个过程的逆过程（称作“解码”）。
+
+>>> a = "中"
+>>> type(a)
+<type 'str'>
+>>> a
+'\xe4\xb8\xad'
+>>> len(a)
+3
+
+>>> b = a.decode()
+>>> b
+u'\u4e2d'
+>>> type(b)
+<type 'unicode'>
+>>> len(b)
+1
+
+变量 a 引用了一个字符串，所谓字符串 (str)，严格地将是字节串，它是经过编码后的字节组成的序列，
+上面的实验中，看到的是“中”这个字在计算机中编码之后的字节表示。用 len(a)来度量它的长度，它是由三个字节组成的。
+
+然后通过 decode 函数，将字节串转变为字符串，并且这个字符串是按照 unicode 编码的，
+在 unicode 编码中，一个汉字对应一个字符，这时候度量它的长度就是 1，
+反过来，一个 unicode 编码的字符串，也可以转换为字节串。
+
+>>> c = b.encode('utf-8')
+>>> c
+'\xe4\xb8\xad'
+>>> type(c)
+<type 'str'>
+>>> c == a
+True
+
+Python 中如何避免中文是乱码：
+首先，提倡使用 utf-8 编码方案，因为它跨平台不错。
+一：在开头声明：
+# -*- coding: utf-8 -*-
+也可以写成：
+# coding:utf-8
+二：遇到字符（节）串，立刻转化为 unicode，不要用 str()，直接使用 unicode()
+unicode_str = unicode('中文', encoding='utf-8')
+print unicode_str.encode('utf-8')
+三：如果对文件操作，打开文件的时候，最好用 codecs.open，替代 open(这个后面会讲到，先放在这里)
+import codecs
+codecs.open('filename', encoding='utf8')
