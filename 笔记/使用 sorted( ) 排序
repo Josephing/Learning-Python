@@ -1,0 +1,54 @@
+list.sort()是列表中的方法，只能用于列表。
+sorted可以用于任何可迭代的对象。
+
+list.sort()是在原序列上进行修改，不会产生新的序列。所以如果不需要旧的序列，可以选择list.sort()。
+sorted() 会返回一个新的序列。旧的对象依然存在。
+
+sorted(）格式为：
+  sorted(itrearble, cmp=None, key=None, reverse=False)
+= 号后面是默认值 
+默认是升序排序的， 如果想让结果降序排列，用 reverse=True
+最后会将排序的结果放到一个新的列表中， 而不是对 iterable 本身进行修改。
+
+
+
+1、
+
+sorted('123456')  字符串
+['1', '2', '3', '4', '5', '6']
+
+sorted([1,4,5,2,3,6])  列表
+[1, 2, 3, 4, 5, 6]
+
+sorted({1:'q',3:'c',2:'g'}) 字典， 默认对字典的键进行排序
+[1, 2, 3]
+
+sorted({1:'q',3:'c',2:'g'}.keys())  对字典的键
+[1, 2, 3]
+
+sorted({1:'q',3:'c',2:'g'}.values())  对字典的值
+['c', 'g', 'q']
+
+sorted({1:'q',3:'c',2:'g'}.items())  对键值对组成的元组的列表
+[(1, 'q'), (2, 'g'), (3, 'c')]
+
+
+2、对元素指定的某一部分进行排序,关键字排序
+
+s = ['Chr1-10.txt','Chr1-1.txt','Chr1-2.txt','Chr1-14.txt','Chr1-3.txt','Chr1-20.txt','Chr1-5.txt']
+
+想要按照 - 后的数字的大小升序排序。要用到key
+
+sorted(s, key=lambda d : int(d.split('-')[-1].split('.')[0]))
+
+['Chr1-1.txt', 'Chr1-2.txt', 'Chr1-3.txt', 'Chr1-5.txt', 'Chr1-10.txt', 'Chr1-14.txt', 'Chr1-20.txt']
+
+这就是key的功能，制定排序的关键字，通常都是一个lambda函数，当然你也可以事先定义好这个函数。如果不讲这个关键字转化为整型，结果是这样的：
+
+sorted(s, key=lambda d : d.split('-')[-1].split('.')[0])
+
+['Chr1-1.txt', 'Chr1-10.txt', 'Chr1-14.txt', 'Chr1-2.txt', 'Chr1-20.txt', 'Chr1-3.txt', 'Chr1-5.txt']
+
+这相当于把这个关键字当做字符串了，在python中，'2' > '10'
+
+可以定制自己想要的key, 如 key = lambda x : len(x) 按照序列的长度去排序。key= lambda x : (x[1], x[0]) 按二个元素，再第一个 等等。。。
