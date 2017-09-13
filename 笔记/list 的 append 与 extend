@@ -1,0 +1,122 @@
+一、
+append：
+>>> a = ["good","python","I"]
+>>> a
+['good', 'python', 'I']
+>>> a.append("like") #向 list 中添加 str 类型 "like"
+>>> a
+['good', 'python', 'I', 'like']
+>>> a.append(100) #向 list 中添加 int 类型 100
+>>> a
+['good', 'python', 'I', 'like', 100]
+
+
+
+二、
+extend：
+>>> la
+[1, 2, 3]
+>>> lb
+['qiwsir', 'python']
+>>> la.extend(lb)
+>>> la
+[1, 2, 3, 'qiwsir', 'python']
+>>> lb
+['qiwsir', 'python']
+
+
+
+三、
+extend 函数是将另外的元素增加到一个已知列表中，其元素必须是 iterable（可迭代的）。
+如果 extend(str)的时候，str 被以字符为单位拆开，然后追加到 la 里面。如果 extend 的对象是数值型，则报错。
+
+>>> lst.extend("itdiffer")
+>>> lst
+['python', 'qiwsir', 'i', 't', 'd', 'i', 'f', 'f', 'e', 'r']
+它把字符串"itdiffer"转化为['i', 't', 'd', 'i', 'f', 'f', 'e', 'r']，然后将这个列表作为参数，提供给 extend，并将列表的元素塞入原来的列表。
+>>> num_lst = [1,2,3]
+>>> num_lst.extend(8)
+Traceback (most recent call last):
+File "<stdin>", line 1, in <module>
+TypeError: 'int' object is not iterable
+
+>>> la = [1,2,3]
+>>> b = "abc"
+>>> la.extend(b)
+>>> la
+[1, 2, 3, 'a', 'b', 'c']
+>>> c = 5
+>>> la.extend(c)
+Traceback (most recent call last):
+File "<stdin>", line 1, in <module>
+TypeError: 'int' object is not iterable
+
+
+三点五、
+可用内建函数hasattr() 判断是否是可迭代的
+>>> astr = "Python"
+>>> hasattr(astr,'__iter__')
+False
+>>> alst = [1,2]
+>>> hasattr(alst,'__iter__')
+True
+>>> hasattr(3, '__iter__')
+False
+
+
+
+四、
+用 append()、extend() 修改列表不是复制一个新的，而是在原地进行修改。
+>>> new = [1,2,3]
+>>> id(new)
+3072383244L
+>>> lst = ['python', 'qiwsir']
+>>> id(lst)
+3069501420L
+>>> lst.extend(new)
+>>> lst
+['python', 'qiwsir', 1, 2, 3]
+>>> id(lst)
+3069501420L
+
+>>> lst = ['Python','qiwsir']
+>>> id(lst)
+3069501388L
+>>> lst.append(new)
+>>> lst
+['Python', 'qiwsir', [1, 2, 3]]
+>>> id(lst)
+3069501388L
+
+
+
+五、
+append() 和 extend() 相同的地方：
+• 都是原地修改列表
+• 既然是原地修改，就不返回值
+原地修改没有返回值，不能赋值给某个变量。
+>>> one = ["good","good","study"]
+>>> another = one.extend(["day","day","up"])
+>>> another #没有结果输出，什么也没有得到。
+>>> one
+['good', 'good', 'study', 'day', 'day', 'up']
+
+
+
+六、
+append() 和 extend() 的不同：
+append 是整建制地追加，extend 是个体化扩编。
+
+>>> lst = [1,2,3]
+>>> lst.append(["qiwsir","github"])
+>>> lst
+[1, 2, 3, ['qiwsir', 'github']] #append 的结果
+>>> len(lst)
+4
+
+>>> lst2 = [1,2,3]
+>>> lst2.extend(["qiwsir","github"])
+>>> lst2
+[1, 2, 3, 'qiwsir', 'github'] #extend 的结果
+>>> len(lst2)
+5
