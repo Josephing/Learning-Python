@@ -1,0 +1,37 @@
+tuple 是一种序列类型的数据,跟 list/str 类似。
+tuple 中的元素不能更改,这点跟 list不同,跟 str 类似;
+tuple 的元素可以是任何类型的数据，这点上跟 list 相同，但不同于 str。
+因此，tuple 融合了部分 list 和部分 str 的属性。
+
+
+>> t = 1,"23",[123,"abc"],("python","learn") # tuple 的元素多样性，类似 list
+>>> t
+(1, '23', [123, 'abc'], ('python', 'learn'))
+
+>> t[0] = 8 # 不能原地修改，类似 str
+Traceback (most recent call last):
+File "<stdin>", line 1, in <module>
+
+>> t[2]
+[123, 'abc']
+>>> t[1:]
+('23', [123, 'abc'], ('python', 'learn'))
+>>> t[2][0] #类似多维 list 
+123
+>>> t[3][1]
+'learn'
+
+注：如果一个元组中只有一个元素的时候,应该在该元素后面加一个半角的英文逗号。
+>>> a = (3)
+>>> type(a)
+<type 'int'>
+>>> b = (3,)
+>>> type(b)
+<type 'tuple'>
+
+
+tuple 的特点，及使用的情景:
+• Tuple 比 list 操作速度快。如果定义了一个值的常量集,并且唯一要用它做的是不断地遍历它,使用 tuple 代替 list 会更快。
+• 如果对不需要修改的数据进行 “写保护”,可以使代码更安全。使用 tuple 而不是 list 如同拥有一个隐含的assert 语句,说明这一数据是常量。如果必须要改变这些值,则需要执行 tuple 到 list 的转换（ tuple()函数 ）。
+• Tuples 可以在 dictionary （ 字典 ）中被用做 key,但是 list 不行。Dictionary key 必须是不可变的。
+• Tuples 可以用在字符串格式化中。
