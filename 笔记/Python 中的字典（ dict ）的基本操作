@@ -1,0 +1,119 @@
+一、创建 dict
+创建一个空的 dict ，可以在以后向里面加东西用。
+>>> mydict = {}
+>>> mydict
+
+创建有内容的 dict。
+>>> person = {"name":"qiwsir","site":"qiwsir.github.io","language":"python"}
+>>> person
+{'name': 'qiwsir', 'language': 'python', 'site': 'qiwsir.github.io'}
+
+利用元组建构字典：
+>>> name = (["first","Google"],["second","Yahoo"])
+>>> website = dict(name)
+>>> website
+{'second': 'Yahoo', 'first': 'Google'}
+或者：
+>>> ad = dict(name="qiwsir", age=42)
+>>> ad
+{'age': 42, 'name': 'qiwsir'}
+
+使用 fromkeys 建构字典：
+>>> website = {}.fromkeys(("third","forth"),"facebook")
+>>> website
+{'forth': 'facebook', 'third': 'facebook'}
+这种方法是重新建立一个 dict
+
+
+二、说明
+"name":"qiwsir" 叫做:键值对。
+前面的 name 叫做键(key)，后面的 qiwsir 是前面的键所对应的值(value)。
+在一个 dict 中，键是唯一的,不能重复。值则是对应于键,值可以重复。
+”键“ 必须是不可变的数据类型；“值” 可以是任意数据类型。
+键值之间用(:)英文的分号隔开，每一对键值之间用英文的逗号(,)隔开。
+
+dict 中的这类以键值对的映射方式存储数据,是一种非常高效的方法。
+读取值的时候，如果用列表,Python 需要从头开始读,直到找到指定的那个索引值。但是,在 dict 中是通过“键”来得到值。要高效得多。
+因此，键值对这样的形式可以用来存储大规模的数据,因为检索快捷。规模越大越明显。
+所以，mongdb 这种非关系型数据库在大数据方面比较流行。
+
+dict 是键值对的映射,所以不用考虑“排序”问题，只要通过键就能找到值,不用考虑这个键值对位置在哪里。
+因为 dict 没有顺序,所以在字典中没有索引和切片。
+
+
+三、向 dict 中增加键值对的方法
+>>> person['name2']="qiwsir"
+>>> person
+{'name2': 'qiwsir', 'name': 'qiwsir', 'language': 'Python', 'site': 'qiwsir.github.io'}
+字典可以原地修改,即它是可变的：
+>>> ad = {}
+>>> id(ad)
+3072770636L
+>>> ad["name"] = "qiwsir"
+>>> ad
+{'name': 'qiwsir'}
+>>> id(ad)
+3072770636L
+
+
+四、访问 dict 的值
+dict 数据类型是以键值对的形式存储数据的,所以,只要知道键,就能得到值。
+>>> person
+{'name2': 'qiwsir', 'name': 'qiwsir', 'language': 'python', 'site': 'qiwsir.github.io'}
+>>> person['name']
+'qiwsir'
+>>> person['language']
+'python'
+
+
+五、基本操作
+• len(d),返回字典(d)中的键值对的数量
+• d[key],返回字典(d)中的键(key)的值
+• d[key]=value,将值(value)赋给字典(d)中的键(key)
+• del d[key],删除字典(d)的键(key)项(将该键值对删除)
+• key in d,检查字典(d)中是否含有键为 key 的项
+
+>>> city_code
+{'suzhou': '0512', 'beijing': '011', 'shanghai': '012', 'tangshan': '0315'}
+>>> len(city_code)
+4
+以 city_code 为操作对象,len(city_code)的值是 4,表明有四组键值对,也可以说是四项。
+
+>>> city_code["nanjing"] = "025"
+>>> city_code
+{'suzhou': '0512', 'beijing': '011', 'shanghai': '012', 'tangshan': '0315', 'nanjing': '025'}
+向其中增加一项
+
+>>> city_code["beijing"] = "010"
+>>> city_code
+{'suzhou': '0512', 'beijing': '010', 'shanghai': '012', 'tangshan': '0315', 'nanjing': '025'}
+突然发现北京的区号写错了。可以这样修改。这进一步说明字典是可变的。
+
+>>> city_code["shanghai"]
+'012'
+>>> del city_code["shanghai"]
+通过 city_code["shanghai"] 能够查看到该键(key)所对应的值(value),结果发现也错了。干脆删除,用 del,将
+那一项都删掉。
+
+>>> city_code["shanghai"]
+Traceback (most recent call last):
+File "", line 1, in
+KeyError: 'shanghai'
+>>> "shanghai" in city_code
+False
+因为键是"shanghai"的那个键值对项已经删除了,随意不能找到,用 in 来看看,返回的是 False 。
+
+>>> city_code
+{'suzhou': '0512', 'beijing': '010', 'tangshan': '0315', 'nanjing': '025'}
+
+
+六、字符串格式化输出
+>>> city_code = {"suzhou":"0512", "tangshan":"0315", "hangzhou":"0571"}
+>>> " Suzhou is a beautiful city, its area code is %(suzhou)s" % city_code
+' Suzhou is a beautiful city, its area code is 0512'
+
+在做网页开发的时候,通常要用到模板,也就是你只需要写好 HTML 代码,然后将某些部位空出来,等着 Python 后台提供相应的数据即可：
+>>> temp = "<html><head><title>%(lang)s<title><body><p>My name is %(name)s.</p></body></head></html>"
+>>> my = {"name":"qiwsir", "lang":"python"}
+>>> temp % my
+'<html><head><title>python<title><body><p>My name is qiwsir.</p></body></head></html>'
