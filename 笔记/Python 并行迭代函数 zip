@@ -1,0 +1,114 @@
+问题一：a = [1,2,3,4,5], b = [9,8,7,6,5]，计算这两个列表中对应元素的和。
+
+方法一、
+>>> a = [1,2,3,4,5]
+>>> b = [9,8,7,6,5]
+>>> c = []
+>>> for i in range(len(a)):
+... c.append(a[i]+b[i])
+...
+>>> c
+[10, 10, 10, 10, 10]
+
+方法二、
+>>> d = []
+>>> for x,y in zip(a,b):
+... d.append(x+y)
+...
+>>> d
+[10, 10, 10, 10, 10]
+
+
+zip 是一个内置函数，它的参数必须是某种序列数据类型，如果是字典，那么键视为序列。然后将序列对应的元素依次组成元组，做为一个 list 的元素。
+
+>>> a = "qiwsir"
+>>> b = "github"
+>>> zip(a,b)
+[('q', 'g'), ('i', 'i'), ('w', 't'), ('s', 'h'), ('i', 'u'), ('r', 'b')]
+
+如果序列长度不同，那么就以"the length of the shortest argument sequence"为准。
+>>> c = [1,2,3]
+>>> d = [9,8,7,6]
+>>> zip(c,d)
+[(1, 9), (2, 8), (3, 7)]
+
+>>> m = {"name","lang"}
+>>> n = {"qiwsir","python"}
+>>> zip(m,n)
+[('lang', 'python'), ('name', 'qiwsir')]
+m，n 不是字典。
+
+下面的才是字典
+>>> s = {"name":"qiwsir"}
+>>> t = {"lang":"python"}
+>>> zip(s,t)
+[('name', 'lang')]
+
+参数是一个序列数据的时候，生成的结果：
+>>> a
+'qiwsir'
+>>> c
+[1, 2, 3]
+>>> zip(c)
+[(1,), (2,), (3,)]
+>>> zip(a)
+[('q',), ('i',), ('w',), ('s',), ('i',), ('r',)]
+
+
+
+问题二：长度不同的两相加
+>>> a = [1,2,3,4,5]
+>>> b = ["python","www.itdiffer.com","qiwsir"]
+
+方法一：
+>>> length = len(a) if len(a)<len(b) else len(b)
+>>> length
+3
+>>> for i in range(length):
+... c.append(str(a[i]) + ":" + b[i])
+...
+>>> c
+['1:python', '2:www.itdiffer.com', '3:qiwsir']
+
+方法二：
+>>> for x,y in zip(a,b):
+... d.append(str(x) + ":" + y)
+...
+>>> d
+['1:python', '2:www.itdiffer.com', '3:qiwsir']
+
+
+>>> result
+[(2, 11), (4, 13), (6, 15), (8, 17)]
+>>> zip(*result)
+[(2, 4, 6, 8), (11, 13, 15, 17)]
+
+
+
+问题三：
+有一个 dictionary，
+myinfor = {"name":"qiwsir","site":"qiwsir.github.io","lang":"python"},
+将这个字典变换成：
+infor = {"qiwsir":"name","qiwsir.github.io":"site","python":"lang"}
+
+方法一：
+>>> infor = {}
+>>> for k,v in myinfor.items():
+... infor[v]=k
+...
+>>> infor
+{'python': 'lang', 'qiwsir.github.io': 'site', 'qiwsir': 'name'}
+
+方法二：
+>>> dict(zip(myinfor.values(),myinfor.keys()))
+{'python': 'lang', 'qiwsir.github.io': 'site', 'qiwsir': 'name'}
+方法二工作原理：
+>>> myinfor.values() #得到两个 list
+['Python', 'qiwsir', 'qiwsir.github.io']
+>>> myinfor.keys()
+['lang', 'name', 'site']
+>>> temp = zip(myinfor.values(),myinfor.keys()) #压缩成一个 list，每个元素是一个 tuple
+>>> temp
+[('python', 'lang'), ('qiwsir', 'name'), ('qiwsir.github.io', 'site')]
+>>> dict(temp) #这是函数 dict() 的功能，将上述列表转化为 dictionary
+{'Python': 'lang', 'qiwsir.github.io': 'site', 'qiwsir': 'name'}
