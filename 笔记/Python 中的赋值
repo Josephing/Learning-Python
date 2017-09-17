@@ -1,0 +1,57 @@
+一、基本的赋值
+a = 3 这
+
+
+二、多个变量同时赋值
+>>> x, y, z = 1, "python", ["hello", "world"]
+>>> x
+1
+>>> y
+'python'
+>>> z
+['hello', 'world']
+
+
+三、把几个值赋给一个变量
+>>> a = "itdiffer.com", "python"
+>>> a
+('itdiffer.com', 'python')
+即：将右边的两个值装入了一个元组，然后将元组赋给了变量 a。
+
+
+四、对调两个变量的值
+>>> a = 2
+>>> b = 9
+>>> a, b = b, a
+>>> a
+9
+>>> b
+2
+
+
+五、链式赋值
+>>> m = n = "I use python"
+>>> print m,n
+I use python I use python
+用这种方式，实现了一次性对两个变量赋值，并且值相同。
+>>> id(m)
+3072659528L
+第 3 章 语句和文件 | 153
+>>> id(n)
+3072659528L
+用
+
+
+六、变量自增
+>>> x = 9
+>>> x += 1
+>>> x
+10
+
+>>> m = "py"
+>>> m += "th"
+>>> m
+'pyth'
+>>> m += "on"
+>>> m
+'python'
