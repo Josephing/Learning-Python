@@ -1,0 +1,26 @@
+set 拥有类似 dict 的特点：可以用{}花括号来定义（不推荐使用）；其中的元素没有序列,也就是是非序列类型的数据;
+set 中的元素不可重复，类似 dict 的键.
+set 也有一点 list 的特点：有一种集合可以原处修改.
+
+一、创建 set
+>>> s1 = set(“qiwsir”)
+>>> s1
+set([‘q’, ‘i’, ‘s’, ‘r’, ‘w’])
+
+>>> s2 = set([123,”google”,”face”,”book”,”facebook”,”book”])
+>>> s2
+set([‘facebook’, 123, ‘google’, ‘book’, ‘face’])
+
+>>> s3 = {“facebook”,123} #通过{}直接创建
+>>> s3
+set([123, ‘facebook’])
+
+通过 {} 无法创建含有 list/dict 元素的 set。因为这使得 Python 搞不清楚是字典还是集合：
+>>> s3 = {“facebook”,[1,2,’a’],{“name”:”Python”,”lang”:”english”},123}
+Traceback (most recent call last):
+File ““, line 1, in
+TypeError: unhashable type: ‘dict’
+>>> s3 = {“facebook”,[1,2],123}
+Traceback (most recent call last):
+File ““, line 1, in
+TypeError: unhashable type: ‘list’
