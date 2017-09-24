@@ -1,0 +1,109 @@
+• read：如果指定了参数 size，就按照该指定长度从文件中读取内容，否则，就读取全文。被读出来的内容，全部塞到一个字符串里面。这样有好处，就是东西都到内存里面了，随时取用；但如果文件内容太多了，内存会吃不消
+
+• readline：可选参数 size 的含义同上。它是以行为单位返回字符串，也就是每次读一行，依次循环，如果不限定 size，直到最后一个返回的是空字符串，意味着到文件末尾了(EOF)。
+
+• readlines：size 同上。它返回的是以行为单位的列表，即相当于先执行 readline() ，得到每一行，然后把这一行的字符串作为列表中的元素塞到一个列表中，最后将此列表返回。
+
+分别用上述三种函数读取这个文件：
+
+一、read
+
+>>> f = open(“you.md”)
+>>> content = f.read()
+>>> content
+‘You Raise Me Up\nWhen I am down and, oh my soul, so weary;\nWhen troubles come and my heart burdened be;\nThen, ……(此处省略)’
+>>> f.close()
+
+得到的就是一个很大的字符串，因为原文中有换行，所以这个字符串里面包含着一些符号 \n 。如果用 print 输出这个字符串，其中的\n 起作用了：
+
+>>> print content
+You Raise Me Up
+When I am down and, oh my soul, so weary;
+When troubles come and my heart burdened be;
+Then, I am still and wait here in the silence,
+Until you come and sit awhile with me.
+You raise me up, so I can stand on mountains;
+You raise me up, to walk on stormy seas;
+I am strong, when I am on your shoulders;
+You raise me up: To more than I can be.
+
+二、readline()
+
+>>> f = open(“you.md”)
+>>> f.readline()
+‘You Raise Me Up\n’
+>>> f.readline()
+‘When I am down and, oh my soul, so weary;\n’
+>>> f.readline()
+‘When troubles come and my heart burdened be;\n’
+>>> f.close()
+
+每操作一次f.readline() ，就读取一行，并且将指针向下移动一行，如此循环。这是一种循环/可迭代。因此，可以用循环语句来完成对全文的读取。
+
+#!/usr/bin/env Python
+# coding=utf-8
+f = open(“you.md”)
+while True:
+line = f.readline()
+if not line: #到 EOF，返回空字符串，则终止循环
+break
+print line ,
+f.close()
+
+三、readlines()
+
+>>> f = open(“you.md”)
+>>> content = f.readlines()
+>>> content
+[‘You Raise Me Up\n’, ‘When I am down and, oh my soul, so weary;\n’, ‘When troubles come and my heart burdened be;\n’,….(此处省略)]
+
+返回的是一个列表，列表中每个元素都是一个字符串，每个字符串中的内容就是文件的一行文字，含行末的符号。
+
+它是可以用 for 来循环的
+>>> for line in content:
+… print line ,
+…
+You Raise Me Up
+When I am down and, oh my soul, so weary;
+When troubles come and my heart burdened be;
+Then, I am still and wait here in the silence,
+Until you come and sit awhile with me.
+You raise me up, so I can stand on mountains;
+You raise me up, to walk on stormy seas;
+I am strong, when I am on your shoulders;
+You raise me up: To more than I can be.
+>>> f.close()
+
+四、读取大文件
+
+如果文件太大，就不能用 read() 或者 readlines() 一次性将全部内容读入内存，可以使用 while 循环和 readlin() 来完成这个任务。
+
+此外，还可以使用 fileinput 模块：
+>>> import fileinput
+>>> for line in fileinput.input(“you.md”):
+… print line ,
+…
+You Raise Me Up
+When I am down and, oh my soul, so weary;
+When troubles come and my heart burdened be;
+Then, I am still and wait here in the silence,
+Until you come and sit awhile with me.
+You raise me up, so I can stand on mountains;
+You raise me up, to walk on stormy seas;
+I am strong, when I am on your shoulders;
+You raise me up: To more than I can be.
+
+还有一种方法，更为常用：
+>>> for line in f:
+… print line ,
+…
+You Raise Me Up
+When I am down and, oh my soul, so weary;
+When troubles come and my heart burdened be;
+Then, I am still and wait here in the silence,
+Until you come and sit awhile with me.
+You raise me up, so I can stand on mountains;
+You raise me up, to walk on stormy seas;
+I am strong, when I am on your shoulders;
+You raise me up: To more than I can be.
+之所以能够如此，是因为 file 是可迭代的数据类型，直接用 for 来迭代即可
