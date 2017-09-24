@@ -1,0 +1,119 @@
+r  以读方式打开文件，可读取文件信息。
+w  以写方式打开文件，可向文件写入信息。如文件存在，则清空该文件，再写入新内容
+a  以追加模式打开文件（即一打开文件，文件指针自动移到文件末尾），如果文件不存在则创建
+r+ 以读写方式打开文件，可对文件进行读和写操作。
+w+ 消除文件内容，然后以读写方式打开文件。
+a+ 以读写方式打开文件，并把文件指针移到文件尾。
+b  以二进制模式打开文件，而不是以文本模式。该模式只对 Windows 或 Dos 有效，类 Unix 的文件是用二进制模式进行操作的。
+
+一、打开文件
+
+新建 zhrq95.txt，并且在里面输入了如下内容：
+learn python
+https://github.com/zhrq95
+
+>>> f = open(“130.txt”) #打开当前目录已经存在的文件，若文件不在当前目录则要使用绝对路径
+>>> for line in f:
+… print line
+…
+learn Python
+
+https://github.com/zhrq95
+
+在 for 语句中，print line 表示每次打印完 line 的对象之后就换行，也就是打印完 line 的对象之后会增加一个 \n。这样，在每行末尾就有两个 \n，即：\n\n，于是在打印中就出现了一个空行。
+>>> f = open(‘zhrq95.txt’)
+>>> for line in f:
+… print line, #后面加一个逗号，就去掉了原来默认增加的 \n 了，于是就少了空行。
+…
+learn Python
+https://github.com/zhrq95
+
+二次读取问题：
+>>> f = open(‘zhrq95.txt’)
+>>> for line1 in f:
+… print line1,
+…
+learn Python
+https://github.com/zhrq95
+>>> for line2 in f: #在前面通过 for 循环读取了文件内容之后，再次读取，
+… print line2 #然后打印，结果就什么也显示，这是什么问题？
+…
+>>>
+因为之前已经读取了文件内容，并且到了文件的末尾。再次读取，就是从末尾开始继续读，所以没有显示内容。这就好比有一个指针在指着文件中的每一行，每读完一行，指针向后移动一行。直到指针指向了文件的最末尾。
+或许在这次读取之前，已经又向文件中追加内容了。如果要再次读取：
+1、用close() 关闭文件，重新 open 一次
+2、想办法把指针移动到文件前面的位置（seek函数）。
+
+二、创建文件
+
+查看当前打开的文件采用的是什么模式：
+>>> f = open(“130.txt”)
+>>> f
+
+>>> f = open(“130.txt”,”r”)
+>>> f
+
+可见 open 的默认模式是 r（只读）
+
+创建文件：
+>>> nf = open(“131.txt”,”w”)
+>>> nf.write(“This is a file”)
+>>> nf.close()
+“w”:以写方式打开文件，可向文件写入信息。如文件存在，则清空该文件，再写入新内容
+>>> fp = open(“131.txt”,”a”)
+>>> fp.write(“\nAha,I like program\n”) #向文件中追加
+>>> fp.close()
+“a”:以追加模式打开文件（即一打开文件，文件指针自动移到文件末尾），如果文件不存在则创建
+
+三、关闭打开的文件
+
+在对文件进行写入操作之后，一定要牢记： file.close()
+还有另外一种更加 Python 的方法，实现安全地关闭文件：
+>>> with open(“130.txt”,”a”) as f:
+… f.write(“\nThis is about ‘with…as…'”)
+…
+>>> with open(“130.txt”,”r”) as f:
+… print f.read()
+…
+learn python
+https://github.com/zhrq95
+This is about ‘with…as…’
+>>>
+
+四、获取文件属性
+在 os 模块中，可以通过 .stat 查看文件的属性，如 文件创建日期，访问日期，修改日期，大小 等
+>>> import os
+>>> file_stat = os.stat(“131.txt”)
+>>> file_stat
+posix.stat_result(st_mode=33204, st_ino=5772566L, st_dev=2049L, st_nlink=1, st_uid=1000, st_gid=1000, st_size=69L,
+>>> file_stat.st_ctime #查看文件的创建时间，可以通过 python 的 time 模块翻译成人类的时间
+1407734600.0882277
+
+在 Python 中，有一个模块 time ，是专门针对时间设计的。
+>>> import time
+>>> time.localtime(file_stat.st_ctime) #这回看清楚了。
+time.struct_time(tm_year=2014, tm_mon=8, tm_mday=11, tm_hour=13, tm_min=23, tm_sec=20, tm_wday=0, tm_yday=223,
+
+五、文件指针移动函数 seek()
+seek() 是以字节为单位进行移动的。如：
+>>> f = open(“you.md”)
+>>> f.readline()
+‘You Raise Me Up\n’
+>>> f.readline()
+‘When I am down and, oh my soul, so weary;\n’
+现在已经移动到第四行末尾了，
+>>> f.seek(0)
+意图是要回到文件的最开头，那么如果用 f.readline() 应该读取第一行。
+>>> f.readline()
+‘You Raise Me Up\n’
+果然如此。此时指针所在的位置，还可以用tell() 来显示，如
+>>> f.tell()
+17L
+>>> f.seek(4)
+f.seek(4) 就将位置定位到从开头算起的第四个字符后面，也就是 “You “之后，字母 “R” 之前的位置。
+>>> f.tell()
+4L
+tell() 也是这么说的。这时候如果使用readline() ，得到就是从当前位置开始读取到行末。
+>>> f.readline()
+‘Raise Me Up\n’
+>>> f.close()
