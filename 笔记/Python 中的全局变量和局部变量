@@ -1,0 +1,41 @@
+x = 2
+def funcx():
+x = 9
+print "this x is in the funcx:-->",x
+funcx()
+print "--------------------------"
+print "this x is out of funcx:-->",x
+这段代码输出的结果：
+this x is in the funcx:--> 9
+--------------------------
+this x is out of funcx:--> 2
+
+从输出看出，运行 funcx()，输出了 funcx() 里面的变量 x=9；
+然后执行代码中的最后一行，print "this x is out of funcx:-->",x
+
+
+局部变量 : 只在函数体内（某个范围内）起作用的变量
+应该尽量避免使用全局变量。不同的模块都可以自由的访问全局变量，可能会导致全局变量的不可预知性
+Python 查找变量是顺序是：先局部变量，再全局变量
+
+x = 2
+def funcx():
+global x # 声明 x 是全局变量，
+x = 9
+print "this x is in the funcx:-->",x
+funcx()
+print "--------------------------"
+print "this x is out of funcx:-->",x
+
+输出结果：
+this x is in the funcx:--> 9
+--------------------------
+this x is out of funcx:--> 9
+
+
+
+在python中，全局变量一般有两种使用方式：
+
+第一种：是在一个单独的模块中定义好，然后在需要使用的全局模块中将定义的全局变量模块导入。
+
+第二种：直接在当前的模块中定义好，然后直接在本模块中通过 global 声明，然后使用
