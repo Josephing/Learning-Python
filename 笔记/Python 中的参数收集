@@ -1,0 +1,88 @@
+Python 解决函数参数个数的不确定性：
+
+一、*arg（*必须有，arg 是名称可以变）
+
+def func(x,*arg):
+print x #输出参数 x 的值
+result = x
+print arg #输出通过 *arg 方式得到的值
+for i in arg:
+result +=i
+return result
+print func(1,2,3,4,5,6,7,8,9) #赋给函数的参数个数不仅仅是 2个
+
+程序的运行结果：
+1 #函数体内的第一个 print，参数 x 得到的值是 1
+(2, 3, 4, 5, 6, 7, 8, 9) #这是函数内的第二个 print，参数 arg 得到的是一个元组
+45 #最后的计算结果
+
+如果输入的参数个数不确定，其它参数全部通过 *arg，以元组的形式由 arg 收集起来。
+• 值 1 传给了参数 x
+• 值 2,3,4,5,6.7.8.9 被塞入一个 tuple 里面，传给了 arg
+
+>>> def foo(*args):
+… print args #打印通过这个参数得到的对象
+…
+
+>>> foo(1,2,3)
+(1, 2, 3)
+>>> foo(“qiwsir”,”qiwsir.github.io”,”python”)
+(‘qiwsir’, ‘qiwsir.github.io’, ‘python’)
+>>> foo(“qiwsir”,307,[“qiwsir”,2],{“name”:”qiwsir”,”lang”:”python”})
+(‘qiwsir’, 307, [‘qiwsir’, 2], {‘lang’: ‘python’, ‘name’: ‘qiwsir’})
+>>> foo(“python”)
+(‘python’,)
+即使只有一个值，也是用 tuple 收集它。注意，在 tuple 中，如果只有一个元素，后面要有一个逗号。
+
+也可以不给 *args 传值：
+>>> def foo(x, *args):
+… print “x:”,x
+… print “tuple:”,args
+…
+>>> foo(7)
+x: 7
+tuple: ()
+这时 *args 收集到的是一个空的 tuple。
+
+二、**kargs
+
+>>> def foo(**kargs):
+… print kargs
+…
+>>> foo(a=1,b=2,c=3) #注意观察这次赋值的方式和打印的结果
+{‘a’: 1, ‘c’: 3, ‘b’: 2}
+
+>>> foo(1,2,3)
+Traceback (most recent call last):
+File ““, line 1, in 
+TypeError: foo() takes exactly 0 arguments (3 given)
+
+如果用 **kargs 的形式收集值，会得到 dict 类型的数据，但是，需要在传值的时候说明 “键” 和 “值”，因为在字典中是以键值对形式出现的。
+
+三、综合 *arg 和 **kargs
+
+>>> def foo(x,y,z,*args,**kargs):
+… print x
+… print y
+… print z
+… print args
+… print kargs
+…
+>>> foo(‘qiwsir’,2,”python”)
+qiwsir
+2
+python
+()
+{}
+>>> foo(1,2,3,4,5)
+1
+2
+3
+(4, 5)
+{}
+>>> foo(1,2,3,4,5,name=”qiwsir”)
+1
+2
+3
+(4, 5)
+{‘name’: ‘qiwsir’}
