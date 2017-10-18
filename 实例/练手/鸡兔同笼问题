@@ -1,0 +1,5 @@
+假设共有 鸡兔 jitu 只，脚 tui 只，求鸡、兔各多少只：
+def demo(jitu,tui):
+        tu = tui/2 - jitu
+        if int(tu) == tu:
+                return(int(jitu-tu),int(tu))
