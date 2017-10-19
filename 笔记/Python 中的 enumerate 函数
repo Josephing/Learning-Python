@@ -1,0 +1,31 @@
+﻿enumerate() 是 python 的内置函数,多用于在for循环中得到计数。
+
+对于一个可迭代（iterable）/可遍历的对象（如列表、字符串），enumerate 将其组成一个索引序列，可以同时获得索引和值。
+
+例如对于一个 seq，得到：
+(0, seq[0]), (1, seq[1]), (2, seq[2])
+
+enumerate() 返回的是一个 enumerate 对象:
+>>>seq = range(5)
+>>>enumerate(5)
+
+对一个列表，既要遍历索引又要遍历元素时，利用 enumerate()：
+list1 = [“a”, “c”, “b”, “e”]
+for index, item in enumerate(list1):
+print index, item
+相当于：
+list1 = [“a”, “c”, “b”, “e”]
+for i in range (len(list1)):
+print i ,list1[i]
+
+enumerate() 还可以接收第二个参数，用于指定索引起始值，如：
+list1 = [“a”, “c”, “b”, “e”]
+for index, item in enumerate(list1, 1):
+print index, item
+
+利用 enumerate() 统计文件的行数：
+count = 0
+for index, line in enumerate(open(filepath,’r’))：
+count += 1
+相当于：
+count = len(open(filepath, ‘r’).readlines())
