@@ -1,0 +1,139 @@
+大多数情况下：在函数内部直接修改形参的值不会影响实参。
+>>>def addone(a):
+print(a)
+a + = 1
+print(a)
+>>>a=3
+>>>addone(a)
+3
+4
+>>>a
+3
+
+但：如果传递给函数的是 Python 可变序列，并且在函数内部使用下标或序列自身支持的方式为可变序列增加、删除元素或修改元素值时，修改后的结果是可以反映到函数之外的，即实参也得到了相应的修改。
+如：
+>>>def modify(v): #修改列表元素值
+v[0]=v[0]+1
+>>>a=[2]
+>>>modify(a)
+>>>a
+[3]
+>>>def modify(v,item): #为列表增加元素
+v.append(item)
+>>>a=[2]
+>>>modify(a,3)
+>>>a
+[2,3]
+>>>def modify(d): #修改字典元素值或为字典增加元素
+d[‘age’]=38
+>>>a={‘name’:’Dong’,’age’:37,’sex’:’Male’}
+>>>a
+{‘name’:’Dong’,’age’:37,’sex’:’Male’}
+>>>modify(a)
+>>>a
+{‘name’:’Dong’,’age’:38,’sex’:’Male’}
+
+一、默认值参数
+
+默认值参数的形式：
+def 函数名 (…,形参名 = 默认值)
+函数体
+
+可以使用 “函数名.__defaults__” 查看函数所有的默认值参数，其返回值是一个元祖，其中的元素依次表示每个默认值参数的当前值。
+如：
+>>>def say(message, times=1):
+print((message+”) * times)
+>>>say.func_defaults
+(1,)
+
+注：
+定义带有默认值参数的函数时，默认值参数必须在函数形参列表列表的最右端，默认值参数右端不能再出现非默认值参数。
+
+注：
+一般情况下，都是调用函数时为其传递参数，这时形参的值由调用函数时实参的值确定。
+如果函数的默认值参数不是调用时传递的，而是通过其他方式对其赋值，则：
+默认值参数的值可能会在函数定义时确定，而不是函数调用时。
+如：
+>>>i=5
+>>>def demo(v):
+print(v)
+>>>i=6
+>>>demo(i)
+6
+>>>i=5
+>>>def demo(v=i):
+print(v)
+>>>i=6
+>>>demo()
+5
+
+!!! 注：
+多次调用函数并且不为默认值参数传递值时：默认值参数只在第一次调用时进行解释。
+对于列表，字典这样的可变类型的默认值参数，可能会导致逻辑错误。
+如：
+def demo(newitem, old_list=[]):
+old_list.append(newitem)
+return old_list
+print(demo(‘5’,[1,2,3,4]))
+print(demo(‘aaa’,[‘a’,’b’]))
+print(demo(‘a’))
+print(demo(‘b’))
+使用列表作为默认参数，由于其记忆性，连续多次调用该函数而不给该参数传值时，再次调用时将保留上一次调用的结果。
+改写为下面的代码，就不存在此问题：
+def demo(newitem, old_list=None):
+if old_list is None:
+old_list=[]
+old_list.append(newitem)
+return old_list
+
+二、关键参数
+关键参数摘要指调用函数时的参数传递方式，与函数定义无关。
+通过关键参数可以按参数名字传递值，实参顺序可以和形参顺序不一致。
+如：
+>>>def demo(a,b,c=5):
+print(a,b,c)
+>>>demo(3,7)
+3 7 5
+>>>demo(a=7,b=3,c=6)
+7 3 6
+>>>demo(c=8,a=9,b=0)
+9 0 8
+
+三、可变长度参数
+两种形式：
+* parameter 接收任意多个实参并将其放在一个元祖中。
+*** parameter 接收类似于关键参数一样显式赋值形式的多个参数并将其放在字典中。
+例一：
+>>>def demo(*p):
+print(p)
+>>>demo(1,2,3)
+(1,2,3)
+>>>demo(1,2,3,4,5,6,7)
+(1,2,3,4,5,6,7)
+例二：
+>>>def demo(**p):
+for item in p.items():
+print(item)
+>>>demo(x=1,y=2,z=3)
+(‘x’,2)
+(‘y’,1)
+(‘z’,3)
+
+四、传递参数时的序列解包
+调用含有多个参数的函数时，可以使用 Python 列表、元祖、集合、字典以及其他可选迭代对象作为实参，并在实参名称前加一个星号，Python 解释器将自动进行解包，然后传递给多个单变量形参。
+>>>def demo(a,b,c):
+print(a+b+c)
+>>>seq=[1,2,3]
+>>>demo(*seq)
+6
+>>>tup=(1,2,3)
+>>>demo(*tup)
+6
+>>>dic={1:’a’, 2:’b’, 3:’c’}
+>>>demo(*dic)
+6
+>>>Set={1，2，3}
+>>>demo(*Set)
+6
+>>>demo(*dic.values())
+abc
