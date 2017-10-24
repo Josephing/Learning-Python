@@ -1,0 +1,50 @@
+﻿lambda 表达式用来声明 匿名函数：没有名字的小函数。
+lambda 表达式只能包含一个表达式，不允许其他复杂语句，但在表达式中可以调用其他函数，支持默认值参数和关键参数。
+lambda 表达式的计算结果相当于函数的返回值。
+
+>>>f=lambda x,y,z:x+y+z
+>>>print(f(1,2,3))
+ 6
+>>>g=lambda x,y=2,z=3:x+y+z
+>>>print(g(1))
+ 6
+>>>print(g(2,z=4,y=5))
+ 11
+>>>L=[(lambda x:x**2),(lambda x:x**3),(lambda x:x**3)]
+>>>print(L[0](2), L[1](2), L[2](2))
+ 4 8 16
+>>>D={'f1':(lambda:2+3), 'f2':(lambda:2*3), 'f3':(lambda:2**3)}
+>>>print(D['f1'](), D['f2'](), D['f3']()) 
+ 5 6 8
+>>>L=[1,2,3,4,5]
+>>>print(map( (lambda x:x+10), L))
+ [11,12,13,14,15]
+>>>L
+ [1,2,3,4,5]
+>>>def demo(n):
+     return n*n
+>>>demo(5)
+ 25
+>>>a_list=[1,2,3,4,5]
+>>>map(lambda x: demo(x),a_list)
+ [1,4,9,16,25]
+>>>data=list(range(20))
+>>>print(data)
+ [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19]
+
+ >>>import random
+>>>random.shuffle(data)
+>>>data
+ [4,3,11,13,12,15,9,2,10,6,19,18,14,8,0,7,5,17,1,16]
+
+>>>data.sort(key=lambda x:x)
+>>>data
+ [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19]
+
+>>>data.sort(key=lambda x:len(str(x)))
+>>>data
+ [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19]
+ 
+>>>data.sort(key=lambda x:len(str(x)), reverse=True)
+>>>data
+ [10,11,12,13,14,15,16,17,18,19,0,1,2,3,4,5,6,7,8,9]
