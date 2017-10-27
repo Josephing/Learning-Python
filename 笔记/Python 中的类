@@ -1,0 +1,89 @@
+类的定义：
+class Car(object): #定义一个类，派生自 object 类
+def infor(self): #定义成员方法
+print("This is a car")
+
+>>>car = Car() #实例化对象
+>>>car.infor() #调用对象的方法
+This is a car
+
+python 中可以用内置方法 isinstance() 来测试一个对象是否为某个类的实例：
+>>>isinstance(car,Car)
+True
+
+关键字 pass：执行的时候什么也不发生，可以用在类、函数的定义、选择结构中，表示空语句，用来占位、预留空间。
+>>>class A:
+pass
+>>>def demo():
+pass
+>>>if 5>3:
+pass
+
+私有成员：
+形式上，私有成员名以两个下划线（__）开头。
+私有成员在类的外部不能直接访问，一般是在类的内部进行访问和操作，或者在类外部通过调用对象的公有成员方法来访问。
+python 中还可以通过特殊方法：“对象名._类名__xxx” 访问私有成员。（不推荐，会破坏类的封装性）
+
+公有成员：
+公有成员是可以公开使用的，既可以在类的内部进行访问，也可以在外部程序中使用。
+
+>>>class A:
+def __init__(self,value1=0,value2=0): #构造函数
+self._value1 = value1
+self._value2 = value2 #私有成员
+def setValue(self,value1,value2): #成员方法
+self._value1 = value1 #在类内部可以直接访问私有成员
+self.__value2 = value2 #成员方法
+def show(self):
+print(self._value1)
+print(self.__value2)
+>>>a=A()
+>>>a._value1 #在外部可以直接访问非私有成员
+0
+>>>a._A__value2 #在外部用特殊方法访问对象的私有数据成员
+0
+
+在 IDLE 环境中：
+在对象或类名后面加上一个英文句号 "." ，会自动列出其所有公开成员。模块也具有这个特点。
+在英文句号 "." 后面再加一个下划线 “_” ，则会列出该对象或类的所有成员，包括私有成员。
+
+python 中，以下划线开头和结束的成员名有特殊的含义，
+类定义中用下划线作为变量名和方法名前缀和后缀来表示类的特殊成员。
+1、_xxx：保护成员，不能用 ‘from module import *’ 导入，只有类对象和子类对象可以访问这些成员。
+2、__xxx__：系统定义的特殊成员。
+3、__xxx：类中的私有成员，一般只有类对象自己能访问，子类对象也不能访问到这个成员，但在对象外部可以通过特殊方式
+“对象名._类名__xxx” 来访问。
+
+在 IDLE 中，直接一个下划线 “_” 表示解释器中最后一次语句正确执行的结果：
+>>>3+5
+8
+>>>_ + 2
+10
+
+数据成员：
+数据成员用来说明对象特有的一些属性，大致分为两类：属于对象的数据成员、属于类的数据成员。
+
+属于对象的数据成员：主要指在构造函数 __init__() 中定义的，定义和使用时必须以 self 作为前缀，同一个类的不同对象（实例）之间的数据成员之间互不影响。
+属于类的数据成员：是该类所有对象共享的，不属于任何一个对象，在定义类时这类数据成员不在任何一个成员方法的定义中
+在主程序中或类的外部，对象数据成员属于实例（对象），只能通过对象名访问。而类数据成员属于类，可以通过类名或对象名访问。
+
+python 中可以动态地为类和对象增加成员。
+
+class Car(object):
+price = 1000000 #属于类的数据成员
+def __init__(self,c):
+self.color = c #属于对象的数据成员
+
+car1 = Car("Read") #实例化对象
+car2 = Car("Blue")
+print(car1.color, Car.price) #访问对象和类的数据成员
+Car.price = 110000 #修改类的属性
+Car.name = 'QQ' #动态增加类的属性
+car1.color = "Yellow" #修改实例的属性
+print(car2.color, Car.price, Car.name)
+print(car1.color, Car.price, Car.name)
+def setSpeed(self, s):
+self.speed = s
+car1.setSpeed = types.MethodType(setSpeed, car1) #动态为对象增加成员的方法
+car1.setSpeed(50) #调用对象的成员方法
+print(car1.speed)
