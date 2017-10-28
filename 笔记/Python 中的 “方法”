@@ -1,0 +1,79 @@
+方法用来描述对象所具有的行为。
+在类中定义的方法可以粗略分为四大类：公有方法、私有方法、静态方法、类方法。
+公有方法、私有方法一般所指属于对象的实例方法，
+私有方法的名字以两个下划线 __ 开始。
+每个对象都有自己的公有方法和私有方法，在这两类方法中都可以访问属于类和对象的成员。
+公有方法通过对象名直接调用，
+私有方法不能通过对象名直接调用，只能在实例方法中通过 self 调用或者外部通过 python 支持的特殊方法来调用。
+
+类的所有实例方法都必须至少有一个名为 self 的参数，并且必须所方法的第一个形参，self 参数代表对象自身。
+在类的实例方法中访问实例属性时需要以 self 为前缀，但在外部通过对象名调用对象方法时并不需要传递这个参数，如果在外部通过类名调用属于对象的公有方法，需要显式为该方法的 self 参数传递一个对象名，用来明确指定访问哪个对象的数据成员。
+
+静态方法和类方法都可以通过类名和对象名调用，但不能直接访问属于对象的成员，只能访问属于类的成员。一般将 cls 作为类方法的第一个参数，表示该类自身，在调用类方法时不需要为该参数传递值。
+
+>>>class Root:
+  __total = 0
+  def __init__(self, v): #构造函数
+    self.__value = v
+    Root.__total + = 1
+  def show(self): #普通实例方法
+    print('self.__value:',self.__value)
+    print('Root.__total:',Root.__total)
+ 
+  @classmethod #修饰器，声明类方法
+  def classShowTotal(cls): #类方法
+    print(cls.__total)
+  
+  @staticmethod #修饰器，声明静态方法
+  def staticShowTotal(): #静态方法
+    print(Root.__total)
+
+>>>r = Root(3)
+>>>r.classShowTotal() #通过对象来调用类方法
+ 1
+>>>r.staticShowTotal() #通过对象来调用静态方法
+ 1
+>>>r.show()
+ self.__value:3
+ Root.__total:1
+>>>rr = Root(5)
+>>>Root.classShowTotal() #通过类名调用类方法
+ 2
+>>>Root.staticShowTotal() #通过类名调用静态方法
+ 2
+>>>Root.show() #通过类名直接调用实例方法，报错
+ 报错
+>>>Root.show(r) #调用方法并访问实例成员
+ self.__value:3
+ Root.__total:2
+>>>r.show()
+ self.__value:3
+ Root.__total:2
+>>>Root.show(rr) #通过类名调用实例方法时为 self 参数显式传递对象名
+ self.__value:5
+ Root.__total:2
+>>>rr.show()
+ self.__value:5
+ Root.__total:2
+
+注：不同对象实例的数据成员之间互不影响，时不共享的。但同一个类的所有实例方法时在不同对象之间共享的，所有对象都执行相同的代码，通过 self 参数来判断要处理哪个对象的数据。
+
+python 中，函数和方法时有区别的。方法一般指特定实例绑定的函数，通过对象调用方法时，对象本身将被作为第一个参数传递过去，普通函数没有此特点。
+>>>class Demo
+ pass
+>>>t = Demo()
+>>>def test(self, v):
+ self.value = v
+>>>t.test = test #动态增加普通函数
+>>>t.test
+<function test at 0x00000000034B7EA0>
+>>>t.test(t,3)
+>>>print(t.value)
+ 3
+>>>import types
+>>>t.test = types.MethodType(test, t) #动态增加绑定的方法
+>>>t.test
+<bound method test of <__main__.Demo object at 0x00000000074F9E8>
+>>>t.test(5)
+>>>print(t.value)
+ 5
