@@ -1,0 +1,114 @@
+一、
+类 vs 对象 == 抽象 vs 具象
+
+二
+类：由抽象信息或者动作组成的集合，代表一类事物，抽象名词
+实例（对象）：具象的，是一类事物中某一个具体的事物
+
+三、对象组成
+信息（属性、成员变量、成员属性） + 动作（函数、成员函数）
+
+四、定义一个类
+1、class 关键字
+2、类名称
+3、冒号
+4、类主题（可选属性、类方法）
+例如：
+# 定义一个学生类
+class Student:
+# 类属性
+name = “NoName”
+age = 0
+tel = “0123456789”
+score = 0
+# 一般类所属函数应该用 self 做第一个参数传入
+def listen(self):
+self.name
+self.age
+pass
+def test(self,name,time,addr):
+pass
+
+五、实例化一个叫张三的学生
+zhangsan = Student()
+
+# 对对象属性的使用
+zhangsan.age = “28”
+zhangsan.name = “zhangshan”
+zhangsan.score = 87
+
+# 对对象的成员函数的调用（不用传入 self 参数，因为程序自动把对象本身作为 self 传入）
+zhangsan.listen()
+zhangsan.test(“python”,”today”,”classroom 1201″)
+
+六、self 关键字
+self 代表的是实例自己
+class Student:
+def hello(self):
+print(“大家好，我是 %s，我今年 %d 岁了。” %(self.name, self.age))
+def serName(self, name):
+self.name = name
+def serAge(self, age):
+self.age = age
+# 实例化一个学生
+lisi = Student()
+# 调用实例函数，不需要手动输入 self 参数
+lisi.setName(“LiSi”)
+lisi.serAge(23)
+lisi.hello()
+
+七、构造函数
+构造函数：在类进行实例化的时候，系统默认第一个被调用且必须被调用的函数。主要在实例化类时起初始化作用
+
+# 构造函数的写法固定，init 前后都有两个下划线
+# self 必须作为第一个参数存在，然后才是进行初始化的值
+# 对 Student 进行实例化的时候，必须写入相应的参数，否则报错
+
+例：
+class Student:
+def hello(self):
+print(“大家好，我是 %s，我今年 %d 岁了。” %(self.name, self.age))
+def __init__(self, name, age):
+print(“调用构造函数”)
+lisi = Student(“lisi”, 23)
+则会打印出字符串 “调用构造函数”
+以下会报错：
+wangwu = Student(“wangwu”, 32)
+# 实例化所属的属性没有定义和初始化
+wangwu.hello()
+
+如下改就正确了：
+def __init__(self, name, age):
+self.name = name
+self.age = age
+print(“调用构造函数”)
+
+八、析构函数
+和构造函数相反，当类实例需要销毁的时候，优先调用析构函数对资源进行消毁
+固定写法，一般不用传入参数
+def __del__(self):
+print(“I Am DEAD…”)
+
+九、访问限制
+公有变量 vs 私有变量
+python中，所有属性和类成员函数默认公有（python实际上没有绝对的私有变量）
+公有：在程序中，任何代码都可以直接访问，不局限在类的内部或类本身
+私有：除了类本身不允许外部任何代码访问
+
+名字改编技术（name mangling）：在私有变量前加上下划线和类名，跟私有变量名连起来组成一个新的名字，在外部可以通过这一方法来访问内部变量
+
+# 私有变量的定义：
+以两个下划线开头，不能以两个下划线结尾
+例：
+class Student:
+def __init__(self, name, age):
+self.name = name
+self.age = age
+self.__dairy = self.name + “的日记本”
+def hello(self):
+print(“My Name is %s, my dairy is %s” % (self.name, self.__dairy))
+lisi = Student(“LiSi”,28)
+lisi.hello()
+print(lisi.name)
+print(lisi.age)
+print(lisi._Student__dairy) # 在外部用特殊方法强行访问私有变量
